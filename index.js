@@ -10,7 +10,15 @@ const server = express();
 server.use(express.json());
 server.use(helmet());
 
+const ZooRouter = require('express').Router();
+
+server.use('api/zoos', ZooRouter)
+
 // endpoints here
+
+router.post('/', (req, res) => {
+  db('')
+})
 
 const port = 3300;
 server.listen(port, function() {
