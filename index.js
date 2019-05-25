@@ -79,6 +79,19 @@ router.delete('/:id', (req, res) => {
     })
 })
 
+router.put('/:id', (req, res) => {
+  db('zoos')
+    .where({ id: req.params.id })
+    .update(req.body)
+    .then(zoo => {
+      res.status(201).json(zoo)
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    })
+})
+
 const port = 3300;
 server.listen(port, function() {
   console.log(`\n=== Web API Listening on http://localhost:${port} ===\n`);
