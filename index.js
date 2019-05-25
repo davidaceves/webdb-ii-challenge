@@ -15,16 +15,35 @@ server.use(helmet());
 // endpoints here
 
 router.post('/', (req, res) => {
+  const { name } = req.body;
   
-  db.insert(req.body, 'id')
+  if (!name) {
+    res.status(400).json({
+      message: "Please provide a name for the zoo."
+    })
+    return;
+  } 
+
+  db.insert(req.body, ['id'])
     .into('zoos')
-    .then(res => {
-      res.status(201).json(res)
+    .then(id => {
+      res.status(201).json(id)
     })
     .catch(err => {
       res.status(500).json(err)
     })
 })
+
+router.get('/', (req, res) => {
+  db('zoos')
+    .then(zoos => {
+      res.status(200).json(zoos);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    })
+});
 
 const port = 3300;
 server.listen(port, function() {
